@@ -20,6 +20,12 @@ module.exports.custom = {
     // stripeSecret: 'sk_test_Zzd814nldl91104qor5911gjald',
     // …
 
-    secretKey: 'pdt24211997'
+    secretKey: 'pdt24211997',
+    projectStatus: {
+        ALL: 0,
+        WORKON: 1,
+        PAUSE: 2,
+        END: 3
+    }
 
 };

@@ -25,7 +25,8 @@ module.exports = {
                 code = 102;
                 message = 'Tên đăng nhập này đã có người sử dụng!';
             } else {
-                user.password = md5(user.password);
+                // md5 just for product
+                // user.password = md5(user.password);
                 let u = await User.create(user).fetch();
                 if (u) {
                     data = { user: u };

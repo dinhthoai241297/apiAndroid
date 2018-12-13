@@ -21,4 +21,7 @@ module.exports.routes = {
     'POST /user/logout': 'user.logout',
     'POST /user/updatepassword': 'user.updatePassword',
 
+    'POST /project/add': 'project.add',
+    'POST /project/getlist': 'project.getList',
+
 };
