@@ -11,6 +11,7 @@ const md5 = require('md5');
 // 102 username đã tồn tại
 // 103 username hoặc password không đúng
 // 104 mật khẩu cũ không đúng
+// 105 lỗi trong try catch
 
 module.exports = {
 
@@ -96,9 +97,9 @@ module.exports = {
         message = 'error';
         data = undefined;
 
-        let { token } = req.body.data;
 
         try {
+            let { token } = req.body.data;
             let se = await Session.findOne({ token });
             if (se) {
                 jwt.verify(token, secretKey, async (error, result) => {
@@ -169,5 +170,36 @@ module.exports = {
         }
         return res.json({ code, message, data });
     },
+
+    getList: async (req, res) => {
+        res.status(200);
+        let code = 500; message = 'error', data = undefined;
+        try {
+            let { page, username } = req.body.data;
+            if (!page || page < 0) {
+                page = 1;
+            }
+            let list = await User.find({ username: { contains: username } });
+            code = 200;
+            message = 'success';
+            if (list.length > 10) {
+                data = {
+                    list: list.slice(0, 10),
+                    next: true,
+                }
+            } else {
+                data = {
+                    list,
+                    next: false
+                }
+            }
+        } catch (error) {
+            code = 105;
+            message = 'error';
+            console.log(error);
+        }
+
+        return res.json({ code, message, data });
+    }
 };
 

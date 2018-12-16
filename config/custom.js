@@ -26,6 +26,11 @@ module.exports.custom = {
         WORKON: 1,
         PAUSE: 2,
         END: 3
+    },
+    memberStatus: {
+        ALL: 0,
+        ONLINE: 1,
+        OFFLINE: 2,
     }
 
 };

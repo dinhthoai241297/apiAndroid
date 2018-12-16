@@ -8,6 +8,8 @@
 // 101 session không tồn tại
 // 102 có lỗi trong lúc tạo project
 // 103 lỗi try catch
+// 104 thiếu tham số
+// 105 không tìm thấy dữ liệu
 
 const projectStatus = sails.config.custom.projectStatus;
 
@@ -99,6 +101,31 @@ module.exports = {
         } catch (error) {
             code = 103;
             message = 'error';
+            console.log(error);
+        }
+        return res.json({ code, message, data });
+    },
+
+    getOne: async (req, res) => {
+        res.status(200);
+        let code, message = 'error', data;
+
+        try {
+            let { id } = req.body.data;
+            if (id) {
+                let project = await Project.findOne({ id });
+                if (project) {
+                    code = 200;
+                    message = 'success';
+                    data = { project };
+                } else {
+                    code = 105;
+                }
+            } else {
+                code = 104;
+            }
+        } catch (error) {
+            code = 103;
             console.log(error);
         }
         return res.json({ code, message, data });
