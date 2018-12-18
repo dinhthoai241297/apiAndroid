@@ -21,6 +21,10 @@ module.exports = {
         fullName: {
             type: 'string',
             required: true
+        },
+        members: {
+            collection: 'member',
+            via: 'user'
         }
 
     },

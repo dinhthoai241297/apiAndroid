@@ -21,16 +21,32 @@ module.exports.custom = {
     // …
 
     secretKey: 'pdt24211997',
+
     projectStatus: {
         ALL: 0,
         WORKON: 1,
         PAUSE: 2,
         END: 3
     },
+
     memberStatus: {
         ALL: 0,
         ONLINE: 1,
         OFFLINE: 2,
+        INVITE: 3,
+        WAIT: 4
+    },
+
+    memberRole: {
+        ALL: 0,
+        EMP: 1
+    },
+
+    taskStatus: {
+        ALL: 0,
+        WAITING: 1,
+        DOING: 2,
+        STOPED: 3
     }
 
 };

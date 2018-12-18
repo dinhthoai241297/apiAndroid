@@ -20,8 +20,18 @@ module.exports.routes = {
     'POST /user/update': 'user.update',
     'POST /user/logout': 'user.logout',
     'POST /user/updatepassword': 'user.updatePassword',
+    'POST /user/getlist': 'user.getList',
 
     'POST /project/add': 'project.add',
     'POST /project/getlist': 'project.getList',
+    'POST /project/getone': 'project.getOne',
+
+    'POST /member/invite': 'member.inviteMember',
+    'POST /member/getlistinvite': 'member.getListInvite',
+    'POST /member/accessinvite': 'member.accessInvite',
+    'POST /member/denyinvite': 'member.denyInvite',
+
+    'POST /task/add': 'task.add',
+    'POST /task/getlist': 'task.getList',
 
 };

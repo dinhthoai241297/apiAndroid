@@ -175,11 +175,11 @@ module.exports = {
         res.status(200);
         let code = 500; message = 'error', data = undefined;
         try {
-            let { page, username } = req.body.data;
+            let { page, username = '' } = req.body.data;
             if (!page || page < 0) {
                 page = 1;
             }
-            let list = await User.find({ username: { contains: username } });
+            let list = await User.find({ username: { contains: username } }).skip((page - 1) * 10).limit(11);
             code = 200;
             message = 'success';
             if (list.length > 10) {

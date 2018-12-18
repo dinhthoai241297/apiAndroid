@@ -12,6 +12,8 @@
 // 105 không tìm thấy dữ liệu
 
 const projectStatus = sails.config.custom.projectStatus;
+const memberStatus = sails.config.custom.memberStatus;
+const ObjectId = require('mongodb').ObjectID;
 
 module.exports = {
 
@@ -52,11 +54,16 @@ module.exports = {
             if (!project || project === 'all') {
                 criteriaProject.$match = {};
             } else if (project === 'owner') {
-                criteriaProject.$match = { owner: id };
+                criteriaProject.$match = { owner: new ObjectId(id) };
             } else if (project === 'join') {
-                let listP = []; // lấy từ member
-                criteriaProject._id = {
-                    $in: listP
+                // get list member
+                let listP = await Member.find({ user: id, status: { in: [memberStatus.ONLINE, memberStatus.OFFLINE] } });
+                console.log(listP);
+                listP = listP.map(mem => new ObjectId(mem.project));
+                criteriaProject.$match = {
+                    _id: {
+                        $in: listP
+                    }
                 }
             }
             criteriaStatus.$match = status ? { status: status } : {};
@@ -113,8 +120,15 @@ module.exports = {
         try {
             let { id } = req.body.data;
             if (id) {
-                let project = await Project.findOne({ id });
+                let project = await Project.findOne({ id }).populate('owner').populate('members');
                 if (project) {
+                    let listId = project.members.map(mem => mem.user);
+                    let members = await User.find({ id: { in: listId } });
+                    for (let i = 0; i < members.length; i++) {
+                        let id = members[i].id;
+                        members[i].status = project.members.find(mem => mem.user === id).status;
+                    }
+                    project.members = members;
                     code = 200;
                     message = 'success';
                     data = { project };
