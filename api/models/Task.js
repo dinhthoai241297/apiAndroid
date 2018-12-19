@@ -37,6 +37,9 @@ module.exports = {
         },
         status: {
             type: 'number'
+        },
+        report: {
+            type: 'string'
         }
     },
 

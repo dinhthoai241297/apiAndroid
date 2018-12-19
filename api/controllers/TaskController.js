@@ -9,6 +9,7 @@
 // 102 Thiếu tham số
 // 103 lỗi try catch
 
+
 const TASK_STATUS = sails.config.custom.taskStatus;
 
 module.exports = {
@@ -44,11 +45,11 @@ module.exports = {
         res.status(200);
         let code = 500; message = 'error', data = undefined;
         try {
-            let { page, project, emp } = req.body.data;
+            let { page, project, emp, key = '' } = req.body.data;
             if (!page || page < 0) {
                 page = 1;
             }
-            let list = await Task.find({ project, emp }).skip((page - 1) * 10).limit(11);
+            let list = await Task.find({ project, emp, name: { contains: key } }).sort('createdAt DESC').skip((page - 1) * 10).limit(11).populate('emp');
             code = 200;
             message = 'success';
             if (list.length > 10) {
@@ -68,6 +69,29 @@ module.exports = {
             console.log(error);
         }
 
+        return res.json({ code, message, data });
+    },
+
+    report: async (req, res) => {
+        res.status(200);
+        let code = 500; message = 'error', data = undefined;
+        try {
+            let { report, id } = req.body.data;
+            if (id && report) {
+                let r = await Task.updateOne({ id }).set({ report, status: TASK_STATUS.STOPED, endTime: new Date() });
+                if (r) {
+                    code = 200;
+                    message = 'success';
+                } else {
+                    code = 101;
+                }
+            } else {
+                code = 102;
+            }
+        } catch (error) {
+            code = 103;
+            console.log(error);
+        }
         return res.json({ code, message, data });
     }
 

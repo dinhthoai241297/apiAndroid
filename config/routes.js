@@ -33,5 +33,6 @@ module.exports.routes = {
 
     'POST /task/add': 'task.add',
     'POST /task/getlist': 'task.getList',
+    'POST /task/report': 'task.report',
 
 };
