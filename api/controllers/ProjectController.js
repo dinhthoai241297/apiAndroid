@@ -6,7 +6,7 @@
  */
 
 // 101 session không tồn tại
-// 102 có lỗi trong lúc tạo project
+// 102 có lỗi trong lúc lưu xuống db
 // 103 lỗi try catch
 // 104 thiếu tham số
 // 105 không tìm thấy dữ liệu
@@ -134,6 +134,30 @@ module.exports = {
                     data = { project };
                 } else {
                     code = 105;
+                }
+            } else {
+                code = 104;
+            }
+        } catch (error) {
+            code = 103;
+            console.log(error);
+        }
+        return res.json({ code, message, data });
+    },
+
+    update: async (req, res) => {
+        res.status(200);
+        let code = 500, message = 'error', data;
+        try {
+            let { id, name, description, endTime } = req.body.data;
+            if (id && name && description && endTime) {
+                endTime = new Date(endTime);
+                let p = await Project.updateOne({ id }).set({ name, description, endTime });
+                if (p) {
+                    code = 200;
+                    message = 'success';
+                } else {
+                    code = 102;
                 }
             } else {
                 code = 104;

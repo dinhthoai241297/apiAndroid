@@ -7,6 +7,8 @@
 
 const ROLE_MEMBER = sails.config.custom.memberRole;
 const STATUS_MEMBER = sails.config.custom.memberStatus;
+const STATUS_NOTI = sails.config.custom.notificationStatus;
+const TYPE_NOTI = sails.config.custom.notificationType;
 
 // 101 thiếu tham số
 // 102 lỗi try catch
@@ -26,6 +28,12 @@ module.exports = {
                     code = 200;
                     message = 'success';
                     data = { member };
+                    await Notification.create({
+                        user,
+                        notiType: TYPE_NOTI.INVITE,
+                        status: STATUS_NOTI.NEW,
+                        notification: 'Bạn có 1 lời mời mới!'
+                    });
                 } else {
                     code = 103;
                 }

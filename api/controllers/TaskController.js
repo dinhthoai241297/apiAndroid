@@ -11,6 +11,8 @@
 
 
 const TASK_STATUS = sails.config.custom.taskStatus;
+const STATUS_NOTI = sails.config.custom.notificationStatus;
+const TYPE_NOTI = sails.config.custom.notificationType;
 
 module.exports = {
 
@@ -28,6 +30,12 @@ module.exports = {
                     data = { task: t };
                     code = 200;
                     message = 'success';
+                    await Notification.create({
+                        user: task.emp,
+                        notiType: TYPE_NOTI.TASK,
+                        status: STATUS_NOTI.NEW,
+                        notification: 'Bạn có 1 công việc mới!'
+                    });
                 } else {
                     code = 101;
                 }

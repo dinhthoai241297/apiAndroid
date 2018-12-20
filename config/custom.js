@@ -47,6 +47,18 @@ module.exports.custom = {
         WAITING: 1,
         DOING: 2,
         STOPED: 3
+    },
+
+    notificationType: {
+        ALL: 0,
+        INVITE: 1,
+        TASK: 2
+    },
+
+    notificationStatus: {
+        ALL: 0,
+        READED: 1,
+        NEW: 2
     }
 
 };

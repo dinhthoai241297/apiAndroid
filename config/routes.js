@@ -25,6 +25,7 @@ module.exports.routes = {
     'POST /project/add': 'project.add',
     'POST /project/getlist': 'project.getList',
     'POST /project/getone': 'project.getOne',
+    'POST /project/update': 'project.update',
 
     'POST /member/invite': 'member.inviteMember',
     'POST /member/getlistinvite': 'member.getListInvite',
@@ -35,4 +36,5 @@ module.exports.routes = {
     'POST /task/getlist': 'task.getList',
     'POST /task/report': 'task.report',
 
+    'POST /notification/getlist': 'notification.getList',
 };
