@@ -57,7 +57,7 @@ module.exports = {
             if (!page || page < 0) {
                 page = 1;
             }
-            let list = await Task.find({ project, emp, name: { contains: key } }).sort('createdAt DESC').skip((page - 1) * 10).limit(11).populate('emp');
+            let list = await Task.find({ project, emp, name: { contains: key } }).sort('createdAt DESC').skip((page - 1) * 10).limit(11).populate('emp').populate('project');
             code = 200;
             message = 'success';
             if (list.length > 10) {

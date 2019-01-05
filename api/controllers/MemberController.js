@@ -120,5 +120,41 @@ module.exports = {
         }
         return res.json({ code, message, data });
     },
+
+    changeStatus: async (req, res) => {
+        res.status(200);
+        let code, message = 'error', data;
+        try {
+            let { id, status, project } = req.body.data;
+            if (status === STATUS_MEMBER.INVITE) {
+                let m = await Member.destroyOne({ user: id, status, project });
+                if (m) {
+                    code = 200;
+                    message = 'success';
+                } else {
+                    code = 103;
+                }
+            } else {
+                let newStatus = 1;
+                if (status === STATUS_MEMBER.ONLINE) {
+                    newStatus = STATUS_MEMBER.OFFLINE;
+                } else if (status === STATUS_MEMBER.OFFLINE) {
+                    newStatus = STATUS_MEMBER.ONLINE
+                }
+                let m = await Member.updateOne({ user: id, status, project }).set({ status: newStatus });
+                if (m) {
+                    code = 200;
+                    message = 'success';
+                    data = { member: m };
+                } else {
+                    code = 103;
+                }
+            }
+        } catch (error) {
+            code = 102;
+            console.log(error);
+        }
+        return res.json({ code, message, data });
+    }
 };
 

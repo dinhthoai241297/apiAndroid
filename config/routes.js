@@ -26,11 +26,13 @@ module.exports.routes = {
     'POST /project/getlist': 'project.getList',
     'POST /project/getone': 'project.getOne',
     'POST /project/update': 'project.update',
+    'POST /project/stop': 'project.stopProject',
 
     'POST /member/invite': 'member.inviteMember',
     'POST /member/getlistinvite': 'member.getListInvite',
     'POST /member/accessinvite': 'member.accessInvite',
     'POST /member/denyinvite': 'member.denyInvite',
+    'POST /member/changestatus': 'member.changeStatus',
 
     'POST /task/add': 'task.add',
     'POST /task/getlist': 'task.getList',

@@ -49,7 +49,6 @@ module.exports = {
             if (!page || page < 0) {
                 page = 1;
             }
-            console.log(key, project, status, page, id);
             let criteriaStatus = {}, criteriaProject = {};
             if (!project || project === 'all') {
                 criteriaProject.$match = {};
@@ -58,7 +57,6 @@ module.exports = {
             } else if (project === 'join') {
                 // get list member
                 let listP = await Member.find({ user: id, status: { in: [memberStatus.ONLINE, memberStatus.OFFLINE] } });
-                console.log(listP);
                 listP = listP.map(mem => new ObjectId(mem.project));
                 criteriaProject.$match = {
                     _id: {
@@ -68,7 +66,6 @@ module.exports = {
             }
             criteriaStatus.$match = status ? { status: status } : {};
             let db = Project.getDatastore().manager;
-            console.log(criteriaStatus, criteriaProject);
             list = await db.collection('project').aggregate([
                 criteriaProject,
                 criteriaStatus,
@@ -156,6 +153,30 @@ module.exports = {
                 if (p) {
                     code = 200;
                     message = 'success';
+                } else {
+                    code = 102;
+                }
+            } else {
+                code = 104;
+            }
+        } catch (error) {
+            code = 103;
+            console.log(error);
+        }
+        return res.json({ code, message, data });
+    },
+
+    stopProject: async (req, res) => {
+        res.status(200);
+        let code = 500, message = 'error', data;
+        try {
+            let { id } = req.body.data;
+            if (id) {
+                let project = await Project.updateOne({ id }).set({ status: projectStatus.STOPED });
+                if (project) {
+                    code = 200;
+                    message = 'success';
+                    data = { project };
                 } else {
                     code = 102;
                 }

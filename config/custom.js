@@ -26,7 +26,7 @@ module.exports.custom = {
         ALL: 0,
         WORKON: 1,
         PAUSE: 2,
-        END: 3
+        STOPED: 3
     },
 
     memberStatus: {
